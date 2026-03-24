@@ -31,6 +31,13 @@ def load_json_info(directory):
                 return json.load(f)
     return None
 
+def find_value_by_keyword(data, keyword):
+    keyword = keyword.lower()
+    for key, value in data.items():
+        if keyword in key.lower():
+            return value
+    return None
+
 def process_event_folder(event_folder, family_faces_folder, prompt_template, model, results_base_dir):
     logging.info(f"Processing event: {os.path.basename(event_folder)}")
     
@@ -55,10 +62,10 @@ def process_event_folder(event_folder, family_faces_folder, prompt_template, mod
         return
     
     # Extract event name and locations from JSON
-    event_name = json_info.get('event', 'Unknown Event')
-    locations = json_info.get('location', [])
+    event_name = find_value_by_keyword(json_info, "event") or "Unknown Event"
+    locations = find_value_by_keyword(json_info, "location") or []
     
-    for event_image_path in event_images[:1]:
+    for event_image_path in event_images:
         image_name = os.path.splitext(os.path.basename(event_image_path))[0]
         output_filename = f"{image_name}.txt"
         output_path = os.path.join(results_event_dir, output_filename)
@@ -118,7 +125,7 @@ def process_event_folder(event_folder, family_faces_folder, prompt_template, mod
         
         logging.info("Final image order being sent to model:")
         logging.info(f"1 -> EVENT: {event_image_path}")
-
+        
         for idx, family_image_path in enumerate(family_images_to_use, start=2):
             logging.info(f"{idx} -> FAMILY: {family_image_path}")
         
@@ -299,4 +306,4 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    main(dataset_root="C:\Mohit\My-Repositories\Samsung-Prism-Research\Dataset", output_path="C:\Mohit\My-Repositories\Samsung-Prism-Research\Results")
+    main(dataset_root=r"C:\Users\Admin\Desktop\25VI12VIT\Dataset\dataset", output_path="./Results")

@@ -7,3 +7,5 @@ DatasetRoot
 gemini_Results
 qwen3_vl_2b_instruct_q4_K_M_Results
 **/__pycache__/**
+logs
+.vscode

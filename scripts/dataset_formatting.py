@@ -5,9 +5,9 @@ from collections import defaultdict
 import random
 
 # Configuration
-SOURCE_DATASET = "Dataset"  # Original dataset root
-SOURCE_RESULTS = "Results/Dataset"  # Original results root
-OUTPUT_ROOT = "DatasetRoot"
+SOURCE_DATASET = "x"  # Original dataset root
+SOURCE_RESULTS = "x"  # Original results root
+OUTPUT_ROOT = "x"
 TRAIN_RATIO = 0.7
 VAL_RATIO = 0.15
 TEST_RATIO = 0.15
