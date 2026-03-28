@@ -181,12 +181,29 @@ Adjust API call parameters in the `build_payload()` function:
 The pipeline generates:
 
 1. **Console Output**: Progress updates and significance scores
-2. **Results Files**: Text files with significance scores saved to:
+2. **Legacy Results Files**: Text files with significance scores saved to:
    ```
    dataset/results/[Person Name]/[event_name]/[image_name].txt
    ```
 
 Each result file contains a single number (1-100) representing the image's significance score.
+
+To convert the legacy dataset plus these score files into the PRISM-style `Data/` + `Annotations/` layout, run:
+
+```powershell
+python .\scripts\dataset_formatting.py `
+  --source-dataset "<original dataset root>" `
+  --source-results "<results root>" `
+  --output-root "<converted dataset root>"
+```
+
+The converter:
+
+- Flattens event folders into split-specific creator folders under `Data/train|val|test/<creator>/`
+- Writes JSON sidecars under `Annotations/train|val|test/<creator>/`
+- Copies event metadata from `info.json`
+- Extracts and normalizes `vlm_score` from legacy `.txt` outputs
+- Adds PRISM-friendly fields such as `metadata_text`, `reasoning`, `user_id`, `event_name`, and `location_details`
 
 ## API Limitations
 
